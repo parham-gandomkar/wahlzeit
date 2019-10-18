@@ -74,5 +74,6 @@ public class Wahlzeit implements ServletContextListener {
 					addException("Shutting instance down failed", ex).toString());
 		}
 	}
+	// test
 
 }
