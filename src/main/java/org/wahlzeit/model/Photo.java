@@ -73,6 +73,8 @@ public class Photo extends DataObject {
 	 *
 	 */
 	protected String ownerId;
+
+	private Location location = Location.EMPTY;
 	
 	/**
 	 * Each photo can be viewed in different sizes (XS, S, M, L, XL)
@@ -144,7 +146,6 @@ public class Photo extends DataObject {
 	 */
 	public Photo(PhotoId myId) {
 		id = myId;
-
 		incWriteCount();
 	}
 
@@ -417,5 +418,13 @@ public class Photo extends DataObject {
 	public void setNoNewPraise() {
 		noVotesAtLastNotification = noVotes;
 		incWriteCount();
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 }
