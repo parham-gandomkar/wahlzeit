@@ -9,7 +9,7 @@ env:
     - IMAGE_NAME_TAGGED=${pgkar}/wahlzeit:${homework03}
 
 script:
-  - docker build -t ${IMAGE_NAME} .
+  - docker build -t ${wahlzeit} .
 
 deploy:
   - provider: script
