@@ -6,19 +6,19 @@ services:
 env:
   global:
     - IMAGE_NAME=${pgkar}/wahlzeit
-    - IMAGE_NAME_TAGGED=${pgkar}/wahlzeit:${homework03}
+    - IMAGE_NAME_TAGGED=${pgkar}/wahlzeit:${TRAVIS_TAG}
 
 script:
-  - docker build -t ${wahlzeit} .
+  - docker build -t ${IMAGE_NAME} .
 
 deploy:
   - provider: script
     script: 
-      docker login -u ${pgkar} -p ${Parham75*} && docker push ${wahlzeit}
+      docker login -u ${pgkar} -p ${Parham75*} && docker push ${IMAGE_NAME}
     on:
       branch: master
   
   - provider: script
-    script: docker login -u ${pgkar} -p ${Parham75*} && docker tag ${wahlzeit} ${wahlzeit:homework03} && docker push ${wahlzeit:homework03}
+    script: docker login -u ${pgkar} -p ${Parham75*} && docker tag ${IMAGE_NAME} ${IMAGE_NAME_TAGGED} && docker push ${IMAGE_NAME_TAGGED}
     on:
       tags: true
