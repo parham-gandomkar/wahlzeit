@@ -14,11 +14,11 @@ script:
 deploy:
   - provider: script
     script: 
-      docker login -u ${pgkar} -p ${Parham75*} && docker push ${IMAGE_NAME}
+      docker login -u ${pgkar} -p ${Parham75*} && docker push ${wahlzeit}
     on:
       branch: master
   
   - provider: script
-    script: docker login -u ${pgkar} -p ${Parham75*} && docker tag ${IMAGE_NAME} ${IMAGE_NAME_TAGGED} && docker push ${IMAGE_NAME_TAGGED}
+    script: docker login -u ${pgkar} -p ${Parham75*} && docker tag ${wahlzeit} ${wahlzeit:homework03} && docker push ${wahlzeit:homework03}
     on:
       tags: true
