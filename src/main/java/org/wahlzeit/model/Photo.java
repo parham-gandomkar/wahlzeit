@@ -41,7 +41,7 @@ import java.util.Map;
 public class Photo extends DataObject {
 
 	/**
-	 *
+	 *.
 	 */
 	public static final String IMAGE = "image";
 	public static final String THUMB = "thumb";
