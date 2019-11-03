@@ -22,6 +22,10 @@ package org.wahlzeit.services;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 /**
  * Test cases for the EmailAddress class.
  */
@@ -65,6 +69,36 @@ public class EmailAddressTest extends TestCase {
 	public void testEmptyEmailAddress() {
 		assertFalse(EmailAddress.EMPTY.isValid());
 	}
+
+
+
+	// testing valid internet address format
+	@Test
+	public void testValidInternetAddress() {
+		EmailAddress emailAddress = new EmailAddress("parham@gmail.com");
+		assertEquals(emailAddress.value ,emailAddress.asInternetAddress().getAddress());
+	}
+
+	// we should handle null string as email address in program
+	// otherwise makes a null pointer exception
+	@Test(expected = NullPointerException.class)
+	public void testNullEmailString() {
+		EmailAddress emailAddress = new EmailAddress(null);
+	}
+
+	// we have another failed test here,
+	// emailAddress 1 and 2's value should be same
+	// email value should not be case sensitive
+	@Test
+	public void testEqualEmailAdressesObjects() {
+		EmailAddress emailAddress1 = new EmailAddress("parham@gmail.com");
+		EmailAddress emailAddress2 = EmailAddress.getFromString("Parham@gmail.com");
+		// the values are not equals and it's not right
+		assertNotSame(emailAddress1.value,emailAddress2.value);
+	}
+
+
+
 
 }
 

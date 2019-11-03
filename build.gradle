@@ -60,6 +60,7 @@ dependencies {
 
 test {
     filter {
+        includeTestsMatching "Path.TO.AllTests"
         includeTestsMatching "org.wahlzeit.*"
     }
     testLogging {

@@ -22,10 +22,18 @@ package org.wahlzeit.services.mailing;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.wahlzeit.services.EmailAddress;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class EmailServiceTest {
 
@@ -34,8 +42,17 @@ public class EmailServiceTest {
 
 	@Before
 	public void setup() throws Exception {
-		emailService = EmailServiceManager.getDefaultService();
 		validAddress = EmailAddress.getFromString("test@test.de");
+		// mocking email service implementation (SmtpEmailService.class or LoggingEmailService.class)
+		emailService = mock(EmailServiceManager.getDefaultService().getClass());
+		when(emailService.sendEmailIgnoreException(validAddress, validAddress, "hi", "test")).thenReturn(true);
+	}
+
+	// testing send email function with a mocked object
+	@Test
+	public void testEmailService() throws MailingException {
+		emailService.sendEmail(validAddress,validAddress,"hi","hi, how are you?");
+		verify(emailService, times(1)).sendEmail(validAddress,validAddress,"hi","hi, how are you?");
 	}
 
 	@Test
@@ -57,4 +74,6 @@ public class EmailServiceTest {
 			Assert.fail("Silent mode does not allow exceptions");
 		}
 	}
+
+
 }
