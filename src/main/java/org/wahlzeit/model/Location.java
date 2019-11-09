@@ -4,19 +4,15 @@ public  class Location {
 
     public static final Location EMPTY = initializeEmptyLocation();
 
-    private String name;
-    private String address;
     private Coordinate coordinate;
 
 
-    private Location(String name, String address, Coordinate coordinate) {
-        this.name = name;
-        this.address = address;
+    private Location(Coordinate coordinate) {
         this.coordinate = coordinate;
     }
 
     private static Location initializeEmptyLocation() {
-        return new Location("","",Coordinate.EMPTY);
+        return new Location(Coordinate.EMPTY);
     }
 
 
@@ -26,21 +22,5 @@ public  class Location {
 
     public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
