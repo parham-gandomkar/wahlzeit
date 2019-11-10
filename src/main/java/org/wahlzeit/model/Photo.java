@@ -133,6 +133,8 @@ public class Photo extends DataObject {
 	@Parent
 	Key parent = ObjectManager.applicationRootKey;
 
+	private PhotoFactory photoFactory = PhotoFactory.getInstance();
+
 	/**
 	 *
 	 */

@@ -30,6 +30,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -43,16 +44,23 @@ public class EmailServiceTest {
 	@Before
 	public void setup() throws Exception {
 		validAddress = EmailAddress.getFromString("test@test.de");
-		// mocking email service implementation (SmtpEmailService.class or LoggingEmailService.class)
-		emailService = mock(EmailServiceManager.getDefaultService().getClass());
-		when(emailService.sendEmailIgnoreException(validAddress, validAddress, "hi", "test")).thenReturn(true);
+		emailService = EmailServiceManager.getDefaultService();
 	}
 
 	// testing send email function with a mocked object
 	@Test
 	public void testEmailService() throws MailingException {
-		emailService.sendEmail(validAddress,validAddress,"hi","hi, how are you?");
-		verify(emailService, times(1)).sendEmail(validAddress,validAddress,"hi","hi, how are you?");
+		emailService.sendEmail(validAddress,validAddress,"the subject", "the body");
+		try {
+			emailService.sendEmail(null, validAddress,"the subject", "the body");
+			fail("sendEmail() should throw a MailingException when an invalid address has");
+		}
+		catch (MailingException ex){}
+	}
+
+	@Test (expected = MailingException.class)
+	public void testEmailService2() throws MailingException {
+		emailService.sendEmail(validAddress, null,"the subject", "the body");
 	}
 
 	@Test
