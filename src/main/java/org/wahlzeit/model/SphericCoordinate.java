@@ -1,59 +1,37 @@
 package org.wahlzeit.model;
 
-public class SphericCoordinate implements Coordinate {
+public class SphericCoordinate extends AbstractCoordinate {
 
-    private double phi;
-    private double theta;
-    private double radius;
 
     public SphericCoordinate(double phi, double theta, double radius) {
-        this.phi = phi;
-        this.theta = theta;
-        this.radius = radius;
-    }
-
-    @Override
-    public Coordinate asCoordinate() {
-        return this;
+        this.x = phi;
+        this.y = theta;
+        this.z = radius;
     }
 
     @Override
     public double getDistance(Coordinate coordinate) {
         if (isSphericCoordinate(coordinate))
         {
-            double x = Math.sin(((SphericCoordinate) coordinate).phi) * Math.sin(phi);
-            double y = Math.cos(((SphericCoordinate) coordinate).phi) * Math.sin(phi);
-            double thetaDiff = Math.abs(((SphericCoordinate) coordinate).theta - theta);
-            return Math.acos(x + y * thetaDiff);
+            double a = Math.sin(((SphericCoordinate) coordinate).x) * Math.sin(this.x);
+            double b = Math.cos(((SphericCoordinate) coordinate).x) * Math.sin(this.x);
+            double thetaDiff = Math.abs(((SphericCoordinate) coordinate).y - z);
+            return Math.acos(a + b * thetaDiff);
         }
         return 0;
     }
 
-
     @Override
     public boolean isEqual(Coordinate coordinate) {
+        if (isSphericCoordinate(coordinate))
+            return super.isEqual(coordinate);
 
-        if (isNull(coordinate)) return false;
-        if (coordinate == this)
-            return true;
-        if (!isSphericCoordinate(coordinate)) {
+        else
             return false;
-        }
-        return (((SphericCoordinate) coordinate).radius == radius &&
-                ((SphericCoordinate) coordinate).theta == theta &&
-                ((SphericCoordinate) coordinate).phi == phi);
     }
 
     private boolean isSphericCoordinate(Coordinate coordinate) {
         return coordinate instanceof SphericCoordinate;
     }
 
-    private boolean isNull(Coordinate coordinate) {
-        return coordinate == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return Integer.valueOf(String.valueOf(phi) + String.valueOf(theta) + String.valueOf(radius));
-    }
 }

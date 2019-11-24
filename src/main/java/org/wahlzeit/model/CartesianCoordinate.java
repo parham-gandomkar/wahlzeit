@@ -1,20 +1,12 @@
 package org.wahlzeit.model;
 
-public class CartesianCoordinate implements Coordinate {
+public class CartesianCoordinate extends AbstractCoordinate {
 
-    private double x;
-    private double y;
-    private double z;
 
     public CartesianCoordinate(double x, double y,double z) {
         this.x = x;
         this.y = y;
         this.z = z;
-    }
-
-    @Override
-    public Coordinate asCoordinate() {
-        return this;
     }
 
     @Override
@@ -30,28 +22,16 @@ public class CartesianCoordinate implements Coordinate {
 
     @Override
     public boolean isEqual(Coordinate coordinate) {
-
-        if (isNull(coordinate)) return false;
-        if (coordinate == this)
-            return true;
-        if (!isCartesianCoordinate(coordinate)) {
+        if(isCartesianCoordinate(coordinate))
+            return super.isEqual(coordinate);
+        else
             return false;
-        }
-        return (((CartesianCoordinate) coordinate).x == x &&
-                ((CartesianCoordinate) coordinate).y == y &&
-                ((CartesianCoordinate) coordinate).z == z);
     }
 
     private boolean isCartesianCoordinate(Coordinate coordinate) {
         return coordinate instanceof CartesianCoordinate;
     }
 
-    private boolean isNull(Coordinate coordinate) {
-        return coordinate == null;
-    }
 
-    @Override
-    public int hashCode() {
-        return Integer.valueOf(String.valueOf(x) + String.valueOf(y) + String.valueOf(z));
-    }
+
 }
