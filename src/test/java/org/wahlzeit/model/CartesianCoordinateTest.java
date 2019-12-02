@@ -25,10 +25,5 @@ public class CartesianCoordinateTest {
         Assert.assertFalse(isEqual);
     }
 
-    @Test
-    public void testGetDistance() {
-        double distance = coordinate.getDistance(new CartesianCoordinate(56, 43.11, 22.22));
 
-        Assert.assertEquals(distance, 49.7, 49.7);
-    }
 }
