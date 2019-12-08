@@ -22,10 +22,15 @@ public class TourPhotoFactory extends PhotoFactory {
 
     // set method
     public static void setInstance(TourPhotoFactory tourPhotoFactory) {
-        if (instance != null) {
-            throw new IllegalStateException("attempt to initalize TourPhotoFactory twice");
-        }
+        assertIsTheInstanceNull(instance);
         instance = tourPhotoFactory;
+    }
+
+    // the instance should be only one time initialised (singleton pattern)
+    private static void assertIsTheInstanceNull(TourPhotoFactory instance) {
+        if (instance != null) {
+            throw new IllegalStateException("attempt to initialize TourPhotoFactory twice");
+        }
     }
 
     // method type = helper method (factory)

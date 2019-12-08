@@ -1,5 +1,8 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.exceptions.InvalidCoordinateClassTypeException;
+import org.wahlzeit.exceptions.InvalidDistanceException;
+
 public class CartesianCoordinate extends AbstractCoordinate {
 
 
@@ -12,37 +15,37 @@ public class CartesianCoordinate extends AbstractCoordinate {
     // we should make sure that the parameter is a Cartesian coordinate
     // if it is not the case, then we should convert it
     @Override
-    public double getCartesianDistance(Coordinate coordinate) {
+    public double getCartesianDistance(Coordinate coordinate) throws InvalidDistanceException, InvalidCoordinateClassTypeException {
         // class invariant
-        assert (isCoordinateValid(this));
-        // Preconditions
-        assert(isCoordinateValid(coordinate));
+        assertIsCoordinateValid(this);
+        // preconditions
+        assertIsCoordinateValid(coordinate);
         // convert coordinate to cartesian
         coordinate = convertSphericalToCartesian(coordinate);
-        assert(isCartesianCoordinate(coordinate));
+        assertIsCartesianCoordinate(coordinate);
         double distance = calculateDistance(this, (CartesianCoordinate) coordinate);
-        // Postconditions
-        assert(isDistanceGreaterThanZero(distance));
+        // post conditions
+        assertIsDistanceGreaterThanZero(distance);
         return distance;
     }
 
     // first convert the instance to spheric coordinate
     // then calculate central angle
     @Override
-    public double getCentralAngle(Coordinate coordinate) {
+    public double getCentralAngle(Coordinate coordinate) throws InvalidDistanceException, InvalidCoordinateClassTypeException {
         // class invariant
-        assert (isCoordinateValid(this));
+        assertIsCoordinateValid(this);
         // Preconditions
-        assert(isCoordinateValid(coordinate));
+        assertIsCoordinateValid(coordinate);
         // convert coordinate to spheric
         coordinate = convertCartesianToSpherical(coordinate);
-        assert(isSphericCoordinate(coordinate));
+        assertIsSphericalCoordinate(coordinate);
 
-        SphericCoordinate sphericCoordinate = (SphericCoordinate) convertCartesianToSpherical(this);
-        double angle = calculateCentralAngle((SphericCoordinate)coordinate, sphericCoordinate);
+        SphericalCoordinate sphericalCoordinate = (SphericalCoordinate) convertCartesianToSpherical(this);
+        double angle = calculateCentralAngle((SphericalCoordinate)coordinate, sphericalCoordinate);
 
-        // Postconditions
-        assert(isDistanceGreaterThanZero(angle));
+        // Post conditions
+        assertIsDistanceGreaterThanZero(angle);
         return angle;
     }
 
@@ -53,12 +56,12 @@ public class CartesianCoordinate extends AbstractCoordinate {
     // this method that is defined in the parent class
     // (abstract coordinate)
     @Override
-    public Coordinate asSphericCoordinate() {
+    public Coordinate asSphericalCoordinate() throws InvalidCoordinateClassTypeException {
         // class invariant
-        assert (isCoordinateValid(this));
+        assertIsCoordinateValid(this);
         Coordinate coordinate =  convertCartesianToSpherical(this);
-        // Postconditions
-        assert(isSphericCoordinate(coordinate));
+        // Post conditions
+        assertIsSphericalCoordinate(coordinate);
         return coordinate;
     }
 
@@ -66,15 +69,15 @@ public class CartesianCoordinate extends AbstractCoordinate {
     @Override
     public boolean isEqual(Coordinate coordinate) {
         // class invariant
-        assert (isCoordinateValid(this));
+        assertIsCoordinateValid(this);
         // Preconditions
-        assert(isCoordinateValid(coordinate));
+        assertIsCoordinateValid(coordinate);
 
         if(isCartesianCoordinate(coordinate))
             return super.isEqual(coordinate);
-        else if (isSphericCoordinate(coordinate))
+        else if (isSphericalCoordinate(coordinate))
         {
-            // first convert coordinate from spheric to cartesian then
+            // first convert coordinate from spherical to cartesian then
             // call super.isEqual method
             return super.isEqual(convertSphericalToCartesian(coordinate));
         }
