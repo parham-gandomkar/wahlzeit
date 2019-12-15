@@ -5,16 +5,31 @@ import org.wahlzeit.exceptions.InvalidDistanceException;
 
 public class SphericalCoordinate extends AbstractCoordinate {
 
+    private final double phi;
+    private final double theta;
+    private final double radius;
+
+    public double getPhi() {
+        return phi;
+    }
+
+    public double getTheta() {
+        return theta;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
 
     public SphericalCoordinate(double phi, double theta, double radius) {
         assertVerifyAttributes(phi,theta,radius);
-        this.x = phi;
-        this.y = theta;
-        this.z = radius;
+        this.phi = phi;
+        this.theta = theta;
+        this.radius = radius;
     }
 
 
-    // first convert the instance to coordinate coordinate
+    // first convert the instance to cartesian coordinate
     // then calculate central angle
     @Override
     public double getCartesianDistance(Coordinate coordinate) throws InvalidCoordinateClassTypeException, InvalidDistanceException {
@@ -38,8 +53,8 @@ public class SphericalCoordinate extends AbstractCoordinate {
             // class invariant
             assertIsCoordinateValid(this);
             // Preconditions
-            assertIsCoordinateValid(coordinate);
             coordinate = convertCartesianToSpherical(coordinate);
+            assertIsCoordinateValid(coordinate);
             double angle =  calculateCentralAngle(this, (SphericalCoordinate) coordinate);
             // Postconditions
             assertIsDistanceGreaterThanZero(angle);
@@ -67,12 +82,12 @@ public class SphericalCoordinate extends AbstractCoordinate {
         assertIsCoordinateValid(coordinate);
 
         if (isSphericalCoordinate(coordinate))
-            return super.isEqual(coordinate);
+            return isCoordinateEqual(coordinate);
         else if (isCartesianCoordinate(coordinate))
         {
             // first convert coordinate from cartesian to spheric then
             // call super.isEqual method
-            return super.isEqual(convertCartesianToSpherical(coordinate));
+            return isCoordinateEqual(convertCartesianToSpherical(coordinate));
         }
         else
             return false;
@@ -85,6 +100,24 @@ public class SphericalCoordinate extends AbstractCoordinate {
         assert (radius >= 0) : "radius must not be negative";
     }
 
+    private boolean isCoordinateEqual(Coordinate coordinate) {
+        if (isNull(coordinate)) return false;
+        if (coordinate == this)
+            return true;
+        // for comparing two double variable,
+        // i used an approximation for checking equality
+        return ((Math.abs(((SphericalCoordinate) coordinate).getPhi() - phi) < 0.1) &&
+                (Math.abs(((SphericalCoordinate) coordinate).getTheta() - theta) < 0.1) &&
+                (Math.abs(((SphericalCoordinate) coordinate).getRadius() - radius)) < 0.1);
+    }
 
+    @Override
+    public int hashCode() {
+        return Integer.valueOf(String.valueOf(phi) + String.valueOf(theta) + String.valueOf(radius));
+    }
+
+    public static String getKeyString(double latitude, double longitude, double radius) {
+        return String.format("latitude=%.10f, longitude=%.10f, radius=%.10f", latitude, longitude, radius);
+    }
 
 }

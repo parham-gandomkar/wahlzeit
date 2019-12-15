@@ -33,9 +33,9 @@ public class SphericalCoordinateTest {
     public void testConvertingToCartesianCoordinate() throws InvalidCoordinateClassTypeException {
         Coordinate coordinate2 = coordinate.asCartesianCoordinate();
         // comparing converted object with actual value
-        Assert.assertTrue(Math.abs(((CartesianCoordinate) coordinate2).x - 3) < 0.1);
-        Assert.assertTrue(Math.abs(((CartesianCoordinate) coordinate2).y - 4) < 0.1);
-        Assert.assertTrue(Math.abs(((CartesianCoordinate) coordinate2).z - 5) < 0.1);
+        Assert.assertTrue(Math.abs(((CartesianCoordinate) coordinate2).getX() - 3) < 0.1);
+        Assert.assertTrue(Math.abs(((CartesianCoordinate) coordinate2).getY() - 4) < 0.1);
+        Assert.assertTrue(Math.abs(((CartesianCoordinate) coordinate2).getZ() - 5) < 0.1);
     }
 
 
@@ -50,5 +50,28 @@ public class SphericalCoordinateTest {
         double centralAngle = coordinate.getCartesianDistance(new SphericalCoordinate(130,60,5));
         Assert.assertTrue(Math.abs(7.44640 - centralAngle)< 0.1);
     }
+
+    @Test
+    public void testEqualityOfSphericalObjectWithTheSameValue() {
+        Coordinate sphericalObject1 = CoordinateFactory.makeCoordinate(
+                CoordinateFactory.CARTESIAN_COORDINATE, 1,2,3);
+
+        Coordinate sphericalObject2 = CoordinateFactory.makeCoordinate(
+                CoordinateFactory.CARTESIAN_COORDINATE, 1,2,3);
+
+        Assert.assertTrue(sphericalObject1.equals(sphericalObject2));
+    }
+
+    @Test
+    public void testNotEqualityOfSphericalObjectWithTheDifferentValue() {
+        Coordinate sphericalObject1 = CoordinateFactory.makeCoordinate(
+                CoordinateFactory.CARTESIAN_COORDINATE, 0,3,3);
+
+        Coordinate sphericalObject2 = CoordinateFactory.makeCoordinate(
+                CoordinateFactory.CARTESIAN_COORDINATE, 1,2,3);
+
+        Assert.assertFalse(sphericalObject1.equals(sphericalObject2));
+    }
+
 
 }

@@ -5,6 +5,9 @@ import org.wahlzeit.exceptions.InvalidDistanceException;
 
 public class CartesianCoordinate extends AbstractCoordinate {
 
+    private final double x;
+    private final double y;
+    private final double z;
 
     public CartesianCoordinate(double x, double y,double z) {
         this.x = x;
@@ -74,21 +77,49 @@ public class CartesianCoordinate extends AbstractCoordinate {
         assertIsCoordinateValid(coordinate);
 
         if(isCartesianCoordinate(coordinate))
-            return super.isEqual(coordinate);
+            return isCoordinateEqual(coordinate);
         else if (isSphericalCoordinate(coordinate))
         {
             // first convert coordinate from spherical to cartesian then
             // call super.isEqual method
-            return super.isEqual(convertSphericalToCartesian(coordinate));
+            return isCoordinateEqual(convertSphericalToCartesian(coordinate));
         }
         else
             return false;
     }
 
+    private boolean isCoordinateEqual(Coordinate coordinate) {
+        if (isNull(coordinate)) return false;
+        if (coordinate == this)
+            return true;
+        // for comparing two double variable,
+        // i used an approximation for checking equality
+        return ((Math.abs(((CartesianCoordinate) coordinate).getX() - x) < 0.1) &&
+                (Math.abs(((CartesianCoordinate) coordinate).getY() - y) < 0.1) &&
+                (Math.abs(((CartesianCoordinate) coordinate).getZ() - z)) < 0.1);
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.valueOf(String.valueOf(x) + String.valueOf(y) + String.valueOf(z));
+    }
+
+
+    public static String getKeyString(double x, double y, double z) {
+        return String.format("x=%.10f, y=%.10f, z=%.10f", x, y, z);
+    }
 
 
 
+    public double getZ() {
+        return z;
+    }
 
+    public double getY() {
+        return y;
+    }
 
-
+    public double getX() {
+        return x;
+    }
 }

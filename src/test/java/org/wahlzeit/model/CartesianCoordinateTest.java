@@ -34,9 +34,9 @@ public class CartesianCoordinateTest {
     public void testConvertingToSphericalCoordinate() throws InvalidCoordinateClassTypeException {
         Coordinate coordinate2 = coordinate.asSphericalCoordinate();
         // comparing converted object with actual value
-        Assert.assertTrue(Math.abs(((SphericalCoordinate) coordinate2).x - 1.4159266) < 0.1);
-        Assert.assertTrue(Math.abs(((SphericalCoordinate) coordinate2).y - 0.3097396) < 0.1);
-        Assert.assertTrue(Math.abs(((SphericalCoordinate) coordinate2).z - 5) < 0.1);
+        Assert.assertTrue(Math.abs(((SphericalCoordinate) coordinate2).getPhi() - 1.4159266) < 0.1);
+        Assert.assertTrue(Math.abs(((SphericalCoordinate) coordinate2).getTheta() - 0.3097396) < 0.1);
+        Assert.assertTrue(Math.abs(((SphericalCoordinate) coordinate2).getRadius() - 5) < 0.1);
     }
 
     @Test
@@ -49,6 +49,28 @@ public class CartesianCoordinateTest {
     public void testCalculatingCentralAngle() throws InvalidDistanceException, InvalidCoordinateClassTypeException {
         double centralAngle = coordinate.getCartesianDistance(new SphericalCoordinate(130,60,5));
         Assert.assertTrue(Math.abs(2.62374 - centralAngle)< 0.1);
+    }
+
+    @Test
+    public void testEqualityOfCartesianObjectWithTheSameValue() {
+        Coordinate cartesianCoordinate1 = CoordinateFactory.makeCoordinate(
+                CoordinateFactory.CARTESIAN_COORDINATE, 1,2,3);
+
+        Coordinate cartesianCoordinate2 = CoordinateFactory.makeCoordinate(
+                CoordinateFactory.CARTESIAN_COORDINATE, 1,2,3);
+
+        Assert.assertTrue(cartesianCoordinate1.equals(cartesianCoordinate2));
+    }
+
+    @Test
+    public void testNotEqualityOfCartesianObjectWithTheDifferentValue() {
+        Coordinate cartesianCoordinate1 = CoordinateFactory.makeCoordinate(
+                CoordinateFactory.CARTESIAN_COORDINATE, 0,3,3);
+
+        Coordinate cartesianCoordinate2 = CoordinateFactory.makeCoordinate(
+                CoordinateFactory.CARTESIAN_COORDINATE, 1,2,3);
+
+        Assert.assertFalse(cartesianCoordinate1.equals(cartesianCoordinate2));
     }
 
 
