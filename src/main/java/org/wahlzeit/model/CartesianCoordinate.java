@@ -3,6 +3,13 @@ package org.wahlzeit.model;
 import org.wahlzeit.exceptions.InvalidCoordinateClassTypeException;
 import org.wahlzeit.exceptions.InvalidDistanceException;
 
+@PatternInstance(
+        patternName = {"Value Object","Template"},
+        participants = {
+                "CartesianCoordinate","AbstractCoordinate"
+        }
+)
+
 public class CartesianCoordinate extends AbstractCoordinate {
 
     private final double x;

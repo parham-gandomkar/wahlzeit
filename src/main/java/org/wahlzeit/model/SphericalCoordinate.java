@@ -3,6 +3,12 @@ package org.wahlzeit.model;
 import org.wahlzeit.exceptions.InvalidCoordinateClassTypeException;
 import org.wahlzeit.exceptions.InvalidDistanceException;
 
+@PatternInstance(
+        patternName = {"Value Object","Template"},
+        participants = {
+                "SphericalCoordinate", "AbstractCoordinate"
+        }
+)
 public class SphericalCoordinate extends AbstractCoordinate {
 
     private final double phi;

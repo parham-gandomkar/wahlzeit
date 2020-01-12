@@ -3,6 +3,13 @@ package org.wahlzeit.model;
 import org.wahlzeit.exceptions.InvalidCoordinateClassTypeException;
 import org.wahlzeit.exceptions.InvalidDistanceException;
 
+@PatternInstance(
+        patternName = "Template",
+        participants = {
+                "AbstractCoordinate"
+        }
+)
+
 public abstract class AbstractCoordinate implements Coordinate{
 
 

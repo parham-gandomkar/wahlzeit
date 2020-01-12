@@ -3,6 +3,13 @@ package org.wahlzeit.model;
 import java.util.HashMap;
 import java.util.Map;
 
+
+@PatternInstance(
+        patternName = "Factory",
+        participants = {
+                "CoordinateFactory"
+        }
+)
 public class CoordinateFactory {
 
     private static Map<String, CartesianCoordinate> cartesianCoordinateHashMap = new HashMap<>();

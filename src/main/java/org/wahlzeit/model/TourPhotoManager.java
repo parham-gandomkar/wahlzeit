@@ -1,5 +1,12 @@
 package org.wahlzeit.model;
 
+
+@PatternInstance(
+        patternName = "Singleton",
+        participants = {
+                "PhotoManager", "TourPhotoManager"
+        }
+)
 public class TourPhotoManager extends PhotoManager {
 
     private static TourPhotoManager instance = new TourPhotoManager();
